@@ -1,15 +1,27 @@
 name: Python CI
-on: [push]
+
+on:
+  push:
+    branches:
+      - main  # Especifica que solo debe ejecutarse cuando haya un push a la rama 'main'
+  pull_request:
+    branches:
+      - main  # También para pull requests dirigidos a la rama 'main'
+
 jobs:
- build:
- runs-on: ubuntu-latest
- steps:
- - uses: actions/checkout@v3
- - name: Instalar Python
- uses: actions/setup-python@v4
- with:
- python-version: '3.x'
- - name: Instalar dependencias
- run: pip install pytest
- - name: Ejecutar pruebas
- run: pyt
+  build:
+    runs-on: ubuntu-latest  # Usamos Ubuntu para ejecutar el flujo de trabajo
+
+    steps:
+    - uses: actions/checkout@v3  # Comando para hacer checkout del código fuente
+
+    - name: Instalar Python
+      uses: actions/setup-python@v4  # Acción para configurar Python
+      with:
+        python-version: '3.x'  # Usamos la versión más reciente de Python 3.x
+
+    - name: Instalar dependencias
+      run: pip install pytest  # Instalamos pytest para las pruebas
+
+    - name: Ejecutar pruebas
+      run: pytest  # Ejecutamos las pruebas con pytest
